@@ -20,6 +20,11 @@ public class PostServiceImpl implements PostService {
         this.postRepository = postRepository;
     }
 
+    @Override
+    public PostDto getPostsById(Long id) {
+        return mapToDto(postRepository.getById(id));
+    }
+
     public List<PostDto> getAllPosts(){
         List<Post> posts = postRepository.findAll();
         return posts.stream().map(post->mapToDto(post)).collect(Collectors.toList());
