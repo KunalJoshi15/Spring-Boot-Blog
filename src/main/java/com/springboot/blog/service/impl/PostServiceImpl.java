@@ -7,33 +7,47 @@ import com.springboot.blog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PostServiceImpl implements PostService {
     // constructor based dependency injection is being used.
     private PostRepository postRepository;
-
+    // here @Autowired annotation can be omitted.
     @Autowired
     public PostServiceImpl(PostRepository postRepository) {
         this.postRepository = postRepository;
     }
 
+    public List<PostDto> getAllPosts(){
+        List<Post> posts = postRepository.findAll();
+        return posts.stream().map(post->mapToDto(post)).collect(Collectors.toList());
+    }
     @Override
     public PostDto createPost(PostDto postDto) {
         // Convert DTO to repository
+        Post post = DtoToMap(postDto);
+//
+        Post newPost = postRepository.save(post);
+//         convert entity to DTO
+//        System.out.println(newPost);
+        PostDto postResponse = mapToDto(newPost);
+        return postResponse;
+    }
+    private Post DtoToMap(PostDto postDto){
         Post post = new Post();
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent());
-        post.setId(postDto.getId());
-        Post newPost = postRepository.save(post);
-
-        // convert entity to DTO
-        PostDto postResponse = new PostDto();
-        postResponse.setId(newPost.getId());
-        postResponse.setContent(newPost.getContent());
-        postResponse.setTitle(newPost.getTitle());
-        postResponse.setDescription(newPost.getDescription());
-
-        return postResponse;
+        return post;
+    }
+    private PostDto mapToDto(Post post){
+        PostDto postDto = new PostDto();
+        postDto.setId(post.getId());
+        postDto.setContent(post.getContent());
+        postDto.setTitle(post.getTitle());
+        postDto.setDescription(post.getDescription());
+        return postDto;
     }
 }
