@@ -1,6 +1,7 @@
 package com.springboot.blog.controller;
 
 import com.springboot.blog.payload.PostDto;
+import com.springboot.blog.payload.PostResponse;
 import com.springboot.blog.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +18,15 @@ public class PostController {
         this.postService = postService;
     }
     // fetch all posts from database. return Json object
+    // there are some more details we need to send to the client.
     @GetMapping
-    public List<PostDto> getAllPosts(){
-        return postService.getAllPosts();
+    public PostResponse getAllPosts(
+            @RequestParam(name="pageNo",defaultValue = "0",required = false) int pageNo,
+            @RequestParam(name="pageSize",defaultValue = "10",required = false) int pageSize,
+            @RequestParam(name="sortBy",defaultValue="id",required=false) String sortBy,
+            @RequestParam(name="sortDir",defaultValue = "asc",required = false) String sortDir
+    ){
+        return postService.getAllPosts(pageNo,pageSize,sortBy,sortDir);
     }
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable(name="id")Long id){
