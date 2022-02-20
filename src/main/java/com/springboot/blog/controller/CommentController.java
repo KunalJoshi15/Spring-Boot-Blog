@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping
+@RequestMapping("/api")
 public class CommentController {
     private CommentService commentService;
 
@@ -18,5 +20,25 @@ public class CommentController {
     @PostMapping("/posts/{postid}/comments")
     public ResponseEntity<CommentDto> createComment(@PathVariable(value = "postid") Long postid,@RequestBody CommentDto commentDto){
         return new ResponseEntity<>(commentService.createComment(postid,commentDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/posts/{postId}/comments")
+    public List<CommentDto> getCommentsByPostId(@PathVariable(value = "postId") Long postId){
+        return commentService.getCommentByPostId(postId);
+    }
+
+    @GetMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<CommentDto> getCommentById(@PathVariable(value = "postId") Long postId, @PathVariable(value = "commentId") Long commentId){
+        return new ResponseEntity<CommentDto>(commentService.getCommentById(postId,commentId),HttpStatus.OK);
+    }
+
+    @PutMapping("/posts/{postId}/comments/{commentId}")
+    public ResponseEntity<CommentDto> updateCommentById(@RequestBody CommentDto commentDto,@PathVariable(value="postId") Long postId,@PathVariable(value="commentId") Long commentId){
+        return new ResponseEntity<>(commentService.updateCommentById(postId,commentId,commentDto),HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/posts/{postId}/comments/{commentId}", method=RequestMethod.DELETE)
+    public ResponseEntity<CommentDto> deleteCommentById(@PathVariable(value = "postId") Long postId,@PathVariable(value = "commentId") Long commentId){
+        return new ResponseEntity<>(commentService.deleteComment(postId,commentId),HttpStatus.OK);
     }
 }
