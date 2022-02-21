@@ -8,6 +8,7 @@ import com.springboot.blog.payload.CommentDto;
 import com.springboot.blog.repository.CommentRepository;
 import com.springboot.blog.repository.PostRepository;
 import com.springboot.blog.service.CommentService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,11 @@ import java.util.stream.Collectors;
 public class CommentServiceImpl implements CommentService {
     CommentRepository commentRepository;
     PostRepository postRepository;
-
-    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository) {
+    private ModelMapper mapper;
+    public CommentServiceImpl(CommentRepository commentRepository, PostRepository postRepository,ModelMapper mapper) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -80,20 +82,23 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private CommentDto mapToDto(Comment comment){
-        CommentDto commentDto = new CommentDto();
-        commentDto.setId(comment.getId());
-        commentDto.setEmail(comment.getEmail());
-        commentDto.setName(comment.getName());
-        commentDto.setBody(comment.getBody());
+        CommentDto commentDto = mapper.map(comment,CommentDto.class);
+//        CommentDto commentDto = new CommentDto();
+//        commentDto.setId(comment.getId());
+//        commentDto.setEmail(comment.getEmail());
+//        commentDto.setName(comment.getName());
+//        commentDto.setBody(comment.getBody());
         return commentDto;
     }
 
     private Comment mapToEntity(CommentDto commentDto){
-        Comment comment = new Comment();
-        comment.setId(commentDto.getId());
-        comment.setName(commentDto.getName());
-        comment.setBody(commentDto.getBody());
-        comment.setEmail(commentDto.getEmail());
+        // mapping can be done easily using ModelMapper need to configure it in pom.xml
+        Comment comment = mapper.map(commentDto,Comment.class);
+//        Comment comment = new Comment();
+//        comment.setId(commentDto.getId());
+//        comment.setName(commentDto.getName());
+//        comment.setBody(commentDto.getBody());
+//        comment.setEmail(commentDto.getEmail());
         return comment;
     }
 }
