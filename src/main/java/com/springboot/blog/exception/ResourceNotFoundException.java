@@ -1,9 +1,15 @@
 package com.springboot.blog.exception;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
+
 // this annotation provides the status code to us when some exception occurs.
 @ResponseStatus
-public class ResourceNotFoundException extends RuntimeException{
+public abstract class ResourceNotFoundException extends RuntimeException{
     private String resourceName;
     private String fieldName;
     private String fieldValue;
@@ -26,4 +32,6 @@ public class ResourceNotFoundException extends RuntimeException{
     public String getFieldValue() {
         return fieldValue;
     }
+
+    protected abstract ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request);
 }
