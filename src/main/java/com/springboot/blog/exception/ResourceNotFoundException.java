@@ -9,7 +9,7 @@ import org.springframework.web.context.request.WebRequest;
 
 // this annotation provides the status code to us when some exception occurs.
 @ResponseStatus
-public abstract class ResourceNotFoundException extends RuntimeException{
+public class ResourceNotFoundException extends RuntimeException{
     private String resourceName;
     private String fieldName;
     private String fieldValue;
@@ -33,5 +33,4 @@ public abstract class ResourceNotFoundException extends RuntimeException{
         return fieldValue;
     }
 
-    protected abstract ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request);
 }

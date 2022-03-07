@@ -42,6 +42,11 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+<!--All the security related jars are included as per our requirement-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
 		<dependency>
 			<groupId>org.modelmapper</groupId>
