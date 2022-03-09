@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     protected void configure(HttpSecurity http) throws Exception {
         // this is basic authentication. Using the configure adapter we can have basic auth
+        // here we are basically restricting the access to the particular routes as per our requirement.
         http
                 .csrf().disable()
                 .authorizeRequests()
@@ -37,8 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Bean
     protected UserDetailsService userDetailsService() {
-        UserDetails kunal = User.builder().username("kunal").password(passwordEncoder().encode("password")).roles("USER").build();
-        UserDetails rahul = User.builder().username("rahul").password(passwordEncoder().encode("password")).roles("ADMIN").build();
+        UserDetails kunal = User.builder().username("kunal").password("{noop}password").roles("USER").build();
+        UserDetails rahul = User.builder().username("rahul").password("{noop}password").roles("ADMIN").build();
 
         return new InMemoryUserDetailsManager(kunal,rahul);
     }
