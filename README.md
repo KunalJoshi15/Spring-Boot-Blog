@@ -13,3 +13,6 @@ When we add the spring-boot-starter-security dependency then we will get a defau
 used for other purposes.
 For enabling the basic authentication in the api we need to add some information to the controller. If the api is then accessed without the username and password then it will cause some issues.
 Advanced configuration has been created as per our requirement where all the roles and the values are defined.
+
+Spring security can be used for authentication of the routes there are two ways this is done one is using the inmemory structures 
+while the other way is storing information inside the data structures.
