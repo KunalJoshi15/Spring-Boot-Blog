@@ -16,3 +16,11 @@ Advanced configuration has been created as per our requirement where all the rol
 
 Spring security can be used for authentication of the routes there are two ways this is done one is using the inmemory structures 
 while the other way is storing information inside the data structures.
+
+JSON web token has three parts in it which are seperated by dots. json web token is used a lot in order to make the spring application authorization more robust.
+Header+Payload+Signature
+Header-> ALGORITHM USED+TYPE(HERE JWT
+Payload-> Information about the information.
+Signature-> We have to take encoded(header)+encoded(payload)+secret.
+
+JWT will be returned by server after succesful authentication. Client then uses these token for the authorization of the requests.
